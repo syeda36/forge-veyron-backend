@@ -1,19 +1,14 @@
 // server.js
-import express from "express";
-import cors from "cors";
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-// test route
-app.get("/", (req, res) => {
-  res.send("Forge-Veyron Backend is running ✅");
-});
-
-// chat route
 app.post("/api/chat", (req, res) => {
   const { message } = req.body;
   let reply = "";
@@ -40,8 +35,4 @@ app.post("/api/chat", (req, res) => {
   });
 });
 
-
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
