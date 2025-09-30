@@ -10,23 +10,22 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post("/api/chat", (req, res) => {
-  const { message } = req.body;
+  const { messages } = req.body;  // get the array of messages
+  const lastMessageObj = Array.isArray(messages) ? messages[messages.length - 1] : null;
+  const message = lastMessageObj?.text || "";
+
   let reply = "";
 
   if (!message) {
     reply = "Hmm 🤔 I didn’t get a message.";
+  } else if (message.toLowerCase().includes("hello") || message.toLowerCase().includes("hi")) {
+    reply = "Hey there 👋! How can I help you today?";
+  } else if (message.toLowerCase().includes("forge")) {
+    reply = "Forge Simulator → you will need to upload a bet setting file from release in **.json** format.";
+  } else if (message.toLowerCase().includes("veyron")) {
+    reply = "Veyron Simulator → you will need to upload a bet setting file from release in **.csv / .xls** format.";
   } else {
-    const lowerMsg = message.toLowerCase();
-
-    if (lowerMsg.includes("hello") || lowerMsg.includes("hi")) {
-      reply = "Hey there 👋! How can I help you today?";
-    } else if (lowerMsg.includes("forge")) {
-      reply = "Forge Simulator → you will need to upload a bet setting file from release in **.json** format.";
-    } else if (lowerMsg.includes("veyron")) {
-      reply = "Veyron Simulator → you will need to upload a bet setting file from release in **.csv** or **.xls** format.";
-    } else {
-      reply = "Hmm 🤔 I don’t have a response for that yet.";
-    }
+    reply = "Hmm 🤔 I don’t have a response for that yet.";
   }
 
   res.json({
@@ -34,5 +33,6 @@ app.post("/api/chat", (req, res) => {
     reply
   });
 });
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
