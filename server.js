@@ -19,15 +19,19 @@ app.post("/api/chat", (req, res) => {
   let reply = "";
 
   if (!message) {
-    reply = "I didn’t get your message. Can you type again?";
-  } else if (message.toLowerCase().includes("hello")) {
-    reply = "Hey there 👋! How can I help you today?";
-  } else if (message.toLowerCase().includes("forge")) {
-    reply = "Forge Simulator you will need to upload bet setting file from release .json type.";
-  } else if (message.toLowerCase().includes("veyron")) {
-    reply = "Veyron Simulator you will need to upload bet setting file from release .csv & .xls type.";
+    reply = "Hmm 🤔 I didn’t get a message.";
   } else {
-    reply = "Hmm 🤔 I don’t have a response for that yet.";
+    const lowerMsg = message.toLowerCase();
+
+    if (lowerMsg.includes("hello") || lowerMsg.includes("hi")) {
+      reply = "Hey there 👋! How can I help you today?";
+    } else if (lowerMsg.includes("forge")) {
+      reply = "Forge Simulator → you will need to upload a bet setting file from release in **.json** format.";
+    } else if (lowerMsg.includes("veyron")) {
+      reply = "Veyron Simulator → you will need to upload a bet setting file from release in **.csv** or **.xls** format.";
+    } else {
+      reply = "Hmm 🤔 I don’t have a response for that yet.";
+    }
   }
 
   res.json({
@@ -35,6 +39,7 @@ app.post("/api/chat", (req, res) => {
     reply
   });
 });
+
 
 
 app.listen(PORT, () => {
